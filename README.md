@@ -2,6 +2,19 @@
 
 End-to-end MLOps pipeline for predicting car prices using Scikit-Learn, MLflow, FastAPI, and Docker.
 
+## MLflow Tracking
+
+Start MLflow server:
+
+mlflow server \
+--backend-store-uri sqlite:///mlflow.db \
+--default-artifact-root ./artifacts \
+--host 0.0.0.0 --port 5000
+
+Open in browser:
+
+http://SERVER_IP:5000
+
 ## 🚀 Project Architecture
 
 Dataset → Training Pipeline → MLflow Tracking → Model Registry → FastAPI → Docker API
