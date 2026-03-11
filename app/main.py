@@ -1,14 +1,17 @@
 from fastapi import FastAPI
+import mlflow
 import mlflow.pyfunc
 import pandas as pd
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI()
 
-# MLflow tracking server
-mlflow.set_tracking_uri("http://34.234.69.129:5000")
+mlflow.set_tracking_uri("http://100.48.130.172:5000")
 
-# Load model
-model = mlflow.pyfunc.load_model("models:/car_price_model/1")
+model = mlflow.pyfunc.load_model("models:/car_price_model/Production")
+
+# Enable Prometheus metrics
+Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/")

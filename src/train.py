@@ -7,7 +7,7 @@ import numpy as np
 import mlflow.sklearn
 
 # load dataset
-df = pd.read_csv("../data/CarPrice_Assignment.csv")
+df = pd.read_csv("data/CarPrice_Assignment.csv")
 
 # features
 X = df[["curbweight","enginesize","horsepower"]]
@@ -31,6 +31,8 @@ rmse = np.sqrt(mean_squared_error(y_test, preds))
 
 # mlflow tracking
 mlflow.set_tracking_uri("http://localhost:5000")
+
+mlflow.set_experiment("car-price-experiment")
 
 with mlflow.start_run():
 
