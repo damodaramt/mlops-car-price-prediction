@@ -25,10 +25,6 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    - name: Run training pipeline
-      run: |
-        python src/train.py
-
     - name: Build Docker image
       run: |
         docker build -t car-mlops-api .
@@ -45,4 +41,4 @@ jobs:
 
     - name: Push Docker image
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/car-mlops-api:latest    
+        docker push ${{ secrets.DOCKER_USERNAME }}/car-mlops-api:latest
