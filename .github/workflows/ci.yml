@@ -48,9 +48,22 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/car-mlops-api:latest
-          docker stop car-mlops-api || true
+    script: |
+      docker pull ${{ secrets.DOCKER_USERNAME }}/car-mlops-api:latest
+
+      docker stop car-mlops-api || true
+      docker rm car-mlops-api || true
+
+      docker run -d \
+        -p 8000:8000 \
+        --name car-mlops-api \
+        --network car-mlops-production_default \
+        -e AWS_ACCESS_KEY_ID=admin \
+        -e AWS_SECRET_ACCESS_KEY=password123 \
+        -e AWS_DEFAULT_REGION=us-east-1 \
+        -e MLFLOW_S3_ENDPOINT_URL=http://mlflow-minio:9000 \
+        -e MLFLOW_TRACKING_URI=http://mlflow-server:5000 \
+        ${{ secrets.DOCKER_USERNAME }}/car-mlops-api:latest
           docker rm car-mlops-api || true
           docker run -d -p 8000:8000 --name car-mlops-api \
           ${{ secrets.DOCKER_USERNAME }}/car-mlops-api:latest
