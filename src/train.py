@@ -4,6 +4,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 import mlflow
 import numpy as np
+import os
 import mlflow.sklearn
 
 # load dataset
@@ -30,7 +31,8 @@ preds = model.predict(X_test)
 rmse = np.sqrt(mean_squared_error(y_test, preds))
 
 # mlflow tracking
-mlflow.set_tracking_uri("http://localhost:5000")
+tracking_uri = os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns")
+mlflow.set_tracking_uri(tracking_uri)
 
 mlflow.set_experiment("car-price-experiment")
 
